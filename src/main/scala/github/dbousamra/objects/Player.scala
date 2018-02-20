@@ -12,13 +12,13 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
 
   val renderer: ShapeRenderer = new ShapeRenderer()
 
+  // Underlying physics body
   val bodyDef = new BodyDef()
   bodyDef.`type` = BodyDef.BodyType.DynamicBody
   bodyDef.position.set(x, y)
   val body = world.createBody(bodyDef)
 
   val circle = new CircleShape()
-//  circle.setPosition(new Vector2(x, y))
   circle.setRadius(radius)
 
   val fixtureDef = new FixtureDef()
@@ -30,6 +30,14 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
     renderer.begin(ShapeType.Line)
     renderer.setColor(Color.CYAN)
     renderer.circle(body.getPosition.x, body.getPosition.y, circle.getRadius)
+    renderer.line(
+      body.getPosition.x,
+      body.getPosition.y,
+      body.getPosition.x + math.cos(body.getAngle).toFloat * -20,
+      body.getPosition.y + math.sin(body.getAngle).toFloat * -20
+    )
+
+    renderer.line()
     renderer.end()
   }
 
@@ -45,7 +53,10 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
     } else {
       body.setAngularVelocity(0f)
     }
-    val direction = body.getWorldVector(new Vector2(-1, 0)).scl(200)
-    body.setLinearVelocity(direction)
+    body.setLinearVelocity(getDirection.scl(200))
+  }
+
+  def getDirection: Vector2 = {
+    body.getWorldVector(new Vector2(-1, 0))
   }
 }
