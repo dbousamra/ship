@@ -36,8 +36,6 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
       body.getPosition.x + math.cos(body.getAngle).toFloat * -20,
       body.getPosition.y + math.sin(body.getAngle).toFloat * -20
     )
-
-    renderer.line()
     renderer.end()
   }
 
