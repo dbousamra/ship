@@ -12,6 +12,7 @@ object Boot {
     cfg.height = Constants.V_HEIGHT.toInt
 
     new LwjglApplication(new Entry, cfg)
+    ()
   }
 
 }

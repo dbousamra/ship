@@ -6,9 +6,12 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Vector2
+import scala.collection.mutable.{ListBuffer => MList}
 import com.badlogic.gdx.physics.box2d._
 
 case class Player(x: Float, y: Float, radius: Float, world: World) {
+
+  val projectiles = MList.empty[Projectile]
 
   val renderer: ShapeRenderer = new ShapeRenderer()
 
@@ -33,14 +36,17 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
     renderer.line(
       body.getPosition.x,
       body.getPosition.y,
-      body.getPosition.x + math.cos(body.getAngle).toFloat * -20,
-      body.getPosition.y + math.sin(body.getAngle).toFloat * -20
+      body.getPosition.x + math.cos(body.getAngle.toDouble).toFloat * -20f,
+      body.getPosition.y + math.sin(body.getAngle.toDouble).toFloat * -20f
     )
     renderer.end()
+    projectiles.foreach(_.render)
+
   }
 
   def update(delta: Float): Unit = {
     handleInput(delta)
+    body.setLinearVelocity(getDirection.scl(200))
   }
 
   def handleInput(delta: Float): Unit = {
@@ -51,10 +57,17 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
     } else {
       body.setAngularVelocity(0f)
     }
-    body.setLinearVelocity(getDirection.scl(200))
+
+    if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+      fire()
+    }
   }
 
   def getDirection: Vector2 = {
     body.getWorldVector(new Vector2(-1, 0))
+  }
+
+  def fire(): Unit = {
+    projectiles += Projectile(body.getPosition.x, body.getPosition.y, body.getAngle, world)
   }
 }
