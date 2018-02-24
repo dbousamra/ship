@@ -46,7 +46,7 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
 
   def update(delta: Float): Unit = {
     handleInput(delta)
-    body.setLinearVelocity(getDirection.scl(200))
+    body.setLinearVelocity(getDirection.scl(90f))
   }
 
   def handleInput(delta: Float): Unit = {
@@ -63,11 +63,14 @@ case class Player(x: Float, y: Float, radius: Float, world: World) {
     }
   }
 
+  /*
+   * Direction the user is facing
+   */
   def getDirection: Vector2 = {
     body.getWorldVector(new Vector2(-1, 0))
   }
 
   def fire(): Unit = {
-    projectiles += Projectile(body.getPosition.x, body.getPosition.y, body.getAngle, world)
+    projectiles += Projectile(body.getPosition.x, body.getPosition.y, getDirection, world)
   }
 }
