@@ -2,7 +2,8 @@ package github.dbousamra
 
 object Constants {
 
-  val V_WIDTH = 480F
-  val V_HEIGHT = 270F
+  val SCREEN_WIDTH = 480F
+  val SCREEN_HEIGHT = 270F
+  val PPM = 20f
 
 }

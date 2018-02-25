@@ -31,15 +31,18 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
 
   body.createFixture(fixtureDef)
 
+  var velocity = 10f
+
   def render(): Unit = {
     renderer.begin(ShapeType.Line)
+    renderer.setProjectionMatrix(playScreen.camera.combined)
     renderer.setColor(Color.CYAN)
-    renderer.circle(body.getPosition.x, body.getPosition.y, circle.getRadius)
+    renderer.circle(body.getPosition.x, body.getPosition.y, circle.getRadius, 10)
     renderer.line(
       body.getPosition.x,
       body.getPosition.y,
-      body.getPosition.x + math.cos(body.getAngle.toDouble).toFloat * -20f,
-      body.getPosition.y + math.sin(body.getAngle.toDouble).toFloat * -20f
+      body.getPosition.x + math.cos(body.getAngle.toDouble).toFloat * -1f,
+      body.getPosition.y + math.sin(body.getAngle.toDouble).toFloat * -1f
     )
     renderer.end()
     projectiles.foreach(_.render)
@@ -47,8 +50,8 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
   }
 
   def update(delta: Float): Unit = {
+    body.setLinearVelocity(getDirection.scl(velocity))
     handleInput(delta)
-    body.setLinearVelocity(getDirection.scl(90f))
     confinePlayer()
   }
 
@@ -67,8 +70,8 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
   }
 
   def confinePlayer(): Unit = {
-    val xPosition = math.max(0 + circle.getRadius, math.min(body.getPosition.x, playScreen.viewPort.getScreenWidth - circle.getRadius))
-    val yPosition = math.max(0 + circle.getRadius, math.min(body.getPosition.y, playScreen.viewPort.getScreenHeight - circle.getRadius))
+    val xPosition = math.max(0 + circle.getRadius, math.min(body.getPosition.x, playScreen.viewPort.getWorldWidth - circle.getRadius))
+    val yPosition = math.max(0 + circle.getRadius, math.min(body.getPosition.y, playScreen.viewPort.getWorldHeight - circle.getRadius))
     body.setTransform(
       xPosition,
       yPosition,
@@ -84,6 +87,6 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
   }
 
   def fire(): Unit = {
-    projectiles += Projectile(body.getPosition.x, body.getPosition.y, getDirection, playScreen.physicsWorld)
+    projectiles += Projectile(body.getPosition.x, body.getPosition.y, getDirection, playScreen)
   }
 }

@@ -12,17 +12,17 @@ import github.dbousamra.objects.Player
 class PlayScreen(game: Entry) extends Screen {
 
   val camera = new OrthographicCamera()
-  val viewPort = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera)
-  viewPort.update(Constants.V_WIDTH.toInt, Constants.V_HEIGHT.toInt)
-  camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0)
+  val viewPort = new FitViewport(Constants.SCREEN_WIDTH / Constants.PPM, Constants.SCREEN_HEIGHT / Constants.PPM, camera)
+  viewPort.update((Constants.SCREEN_WIDTH / Constants.PPM).toInt, (Constants.SCREEN_HEIGHT / Constants.PPM).toInt)
 
+  camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0)
   val physicsWorld = new World(new Vector2(0, 0), false)
-  val physicsWorldRenderer = new Box2DDebugRenderer()
+//  val physicsWorldRenderer = new Box2DDebugRenderer()
 
   val player = Player(
-    x = Constants.V_WIDTH / 2,
-    y = Constants.V_HEIGHT / 2,
-    radius = 12,
+    x = Constants.SCREEN_WIDTH / Constants.PPM / 2f,
+    y = Constants.SCREEN_HEIGHT / Constants.PPM / 2f,
+    radius = 12f / Constants.PPM,
     this
   )
 
@@ -50,5 +50,7 @@ class PlayScreen(game: Entry) extends Screen {
 
   def hide() = ()
 
-  def resize(width: Int, height: Int) = ()
+  def resize(width: Int, height: Int) = {
+    viewPort.update(width, height);
+  }
 }
