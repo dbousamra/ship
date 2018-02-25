@@ -10,6 +10,7 @@ object Boot {
     cfg.title = "Hello world"
     cfg.width = Constants.V_WIDTH.toInt
     cfg.height = Constants.V_HEIGHT.toInt
+    cfg.resizable = false
 
     new LwjglApplication(new Entry, cfg)
     ()

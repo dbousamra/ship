@@ -13,6 +13,7 @@ class PlayScreen(game: Entry) extends Screen {
 
   val camera = new OrthographicCamera()
   val viewPort = new FitViewport(Constants.V_WIDTH, Constants.V_HEIGHT, camera)
+  viewPort.update(Constants.V_WIDTH.toInt, Constants.V_HEIGHT.toInt)
   camera.position.set(viewPort.getWorldWidth() / 2, viewPort.getWorldHeight() / 2, 0)
 
   val physicsWorld = new World(new Vector2(0, 0), false)
@@ -22,7 +23,7 @@ class PlayScreen(game: Entry) extends Screen {
     x = Constants.V_WIDTH / 2,
     y = Constants.V_HEIGHT / 2,
     radius = 12,
-    world = physicsWorld
+    this
   )
 
   def render(delta: Float) = {
@@ -49,7 +50,5 @@ class PlayScreen(game: Entry) extends Screen {
 
   def hide() = ()
 
-  def resize(width: Int, height: Int) = {
-    viewPort.update(width, height)
-  }
+  def resize(width: Int, height: Int) = ()
 }
