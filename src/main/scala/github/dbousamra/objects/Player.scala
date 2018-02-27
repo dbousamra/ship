@@ -7,13 +7,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.math.Vector2
 
-import scala.collection.mutable.{ListBuffer => MList}
 import com.badlogic.gdx.physics.box2d._
 import github.dbousamra.screens.PlayScreen
 
 case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
-
-  val projectiles = MList.empty[Projectile]
 
   val renderer: ShapeRenderer = new ShapeRenderer()
 
@@ -45,7 +42,6 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
       body.getPosition.y + math.sin(body.getAngle.toDouble).toFloat * -1f
     )
     renderer.end()
-    projectiles.foreach(_.render)
 
   }
 
@@ -87,6 +83,6 @@ case class Player(x: Float, y: Float, radius: Float, playScreen: PlayScreen) {
   }
 
   def fire(): Unit = {
-    projectiles += Projectile(body.getPosition.x, body.getPosition.y, getDirection, playScreen)
+    playScreen.projectiles += Projectile(body.getPosition.x, body.getPosition.y, getDirection, playScreen)
   }
 }

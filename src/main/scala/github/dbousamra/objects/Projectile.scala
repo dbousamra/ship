@@ -9,6 +9,7 @@ import github.dbousamra.Constants
 import github.dbousamra.screens.PlayScreen
 
 case class Projectile(x: Float, y: Float, direction: Vector2, playScreen: PlayScreen) {
+  var alive = true
   val renderer = new ShapeRenderer()
   val bodyDef = new BodyDef()
   bodyDef.`type` = BodyDef.BodyType.DynamicBody
@@ -37,4 +38,18 @@ case class Projectile(x: Float, y: Float, direction: Vector2, playScreen: PlaySc
     renderer.end()
   }
 
+  def update(delta: Float): Unit = {
+    val tooFarRight = body.getPosition.x > playScreen.viewPort.getWorldWidth
+    val tooFarLeft = body.getPosition.x < 0
+    val tooFarUp = body.getPosition.y > playScreen.viewPort.getWorldHeight
+    val tooFarDown = body.getPosition.y < 0
+
+    if (tooFarRight || tooFarLeft || tooFarUp || tooFarDown) {
+      die()
+    }
+  }
+
+  def die(): Unit = {
+    alive = false
+  }
 }

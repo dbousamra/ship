@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.utils.viewport._
+import scala.collection.mutable.{ListBuffer => MList}
 import github.dbousamra._
-import github.dbousamra.objects.Player
+import github.dbousamra.objects.{Player, Projectile}
 
 class PlayScreen(game: Entry) extends Screen {
 
@@ -25,6 +26,7 @@ class PlayScreen(game: Entry) extends Screen {
     radius = 12f / Constants.PPM,
     this
   )
+  var projectiles = MList.empty[Projectile]
 
   def render(delta: Float) = {
     update(delta)
@@ -32,12 +34,15 @@ class PlayScreen(game: Entry) extends Screen {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 //    physicsWorldRenderer.render(physicsWorld, camera.combined)
     player.render()
+    projectiles.foreach(_.render)
   }
 
   def update(delta: Float): Unit = {
     physicsWorld.step(1 / 60f, 6, 2);
     camera.update()
     player.update(delta)
+    projectiles.foreach(_.update(delta))
+    projectiles = projectiles.filter(_.alive)
   }
 
   def dispose() = ()
