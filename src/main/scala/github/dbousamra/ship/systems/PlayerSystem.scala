@@ -3,8 +3,10 @@ package github.dbousamra.ship.systems
 import com.badlogic.gdx.math.Vector2
 import github.dbousamra.ship.components._
 import github.dbousamra.ecs._
+import github.dbousamra.ship.GameUniverse
+import github.dbousamra.ship.entities.EntityFactory
 
-case class PlayerSystem() extends System {
+case class PlayerSystem(universe: GameUniverse) extends System {
   def process(es: List[Entity], delta: Float): Unit = {
 
     val entities = es.flatMap { e =>
@@ -27,8 +29,7 @@ case class PlayerSystem() extends System {
           physics.body.setAngularVelocity(0f)
         }
         if (control.space) {
-          println("Firing")
-//          fire()
+          engine.foreach(_.addEntity(EntityFactory.createShip(universe)))
         }
       }
     }

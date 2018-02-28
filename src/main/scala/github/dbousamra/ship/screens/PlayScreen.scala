@@ -24,7 +24,7 @@ class PlayScreen(game: Entry) extends Screen {
   engine.addSystem(PhysicsDebugRenderer(universe, renderingSystem.camera))
   engine.addSystem(RemainInBoundsSystem(new Vector2(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT)))
   engine.addSystem(PlayerControlSystem(universe))
-  engine.addSystem(PlayerSystem())
+  engine.addSystem(PlayerSystem(universe))
 
   engine.addEntity(EntityFactory.createShip(universe))
 
