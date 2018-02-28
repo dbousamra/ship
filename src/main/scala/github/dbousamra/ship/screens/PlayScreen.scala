@@ -12,28 +12,21 @@ import github.dbousamra.ship.systems._
 class PlayScreen(game: Entry) extends Screen {
 
   val engine = Engine()
+  val physicsWorld = new World(new Vector2(0, 0), false)
 
-  val physicsWorld = new World(new Vector2(0, -1), false)
   val keyboardController = KeyboardController()
-  Gdx.input.setInputProcessor(keyboardController)
 
-  val worldBounds = new Vector2(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT)
-
-  engine.addEntity(
-    Ship.create(
-      x = Constants.WORLD_WIDTH / 2f,
-      y = Constants.WORLD_HEIGHT / 2f,
-      radius = 12f / Constants.PPM,
-      physicsWorld
-    )
-  )
+  val universe = GameUniverse(engine, physicsWorld, keyboardController)
 
   val renderingSystem = RenderingSystem()
-  engine.addSystem(PhysicsSystem(physicsWorld))
+  engine.addSystem(PhysicsSystem(universe))
   engine.addSystem(renderingSystem)
-  engine.addSystem(PhysicsDebugRenderer(physicsWorld, renderingSystem.camera))
-  engine.addSystem(RemainInBoundsSystem(worldBounds))
-  engine.addSystem(PlayerControlSystem(keyboardController))
+  engine.addSystem(PhysicsDebugRenderer(universe, renderingSystem.camera))
+  engine.addSystem(RemainInBoundsSystem(new Vector2(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT)))
+  engine.addSystem(PlayerControlSystem(universe))
+  engine.addSystem(PlayerSystem())
+
+  engine.addEntity(EntityFactory.createShip(universe))
 
   def render(delta: Float) = {
     engine.process(delta)

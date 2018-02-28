@@ -2,7 +2,8 @@ package github.dbousamra.ship.components
 
 import github.dbousamra.ecs._
 
-case class PlayerControlComponent(
-  var left: Boolean,
-  var right: Boolean
-) extends Component
+case class PlayerControlComponent() extends Component {
+  var left: Boolean = false
+  var right: Boolean = false
+  var space: Boolean = false
+}

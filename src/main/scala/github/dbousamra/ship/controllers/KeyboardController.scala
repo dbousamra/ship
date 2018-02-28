@@ -7,6 +7,7 @@ case class KeyboardController() extends InputProcessor {
 
   var left: Boolean = false
   var right: Boolean = false
+  var space: Boolean = false
 
   def touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean = false
 
@@ -30,6 +31,10 @@ case class KeyboardController() extends InputProcessor {
         right = false
         true
       }
+      case Keys.SPACE => {
+        space = false
+        true
+      }
       case _ => {
         false
       }
@@ -44,6 +49,10 @@ case class KeyboardController() extends InputProcessor {
       }
       case Keys.RIGHT => {
         right = true
+        true
+      }
+      case Keys.SPACE => {
+        space = true
         true
       }
       case _ => {

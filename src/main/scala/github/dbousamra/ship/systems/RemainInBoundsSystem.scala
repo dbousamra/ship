@@ -18,7 +18,6 @@ case class RemainInBoundsSystem(bounds: Vector2) extends System {
       case (_, physics) => {
 
         val bodyWidth = physics.body.getUserData.asInstanceOf[CircleShape].getRadius
-        println(bodyWidth)
         val xPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.x, bounds.x - bodyWidth))
         val yPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.y, bounds.y - bodyWidth))
         physics.body.setTransform(
