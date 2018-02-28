@@ -11,7 +11,11 @@ case class Entity(
   var world: Option[Engine] = None
   val id: String = UUID.randomUUID().toString
 
-  def get[A <: Component: ClassTag]: Option[A] = {
+  def addComponent(c: Component): Unit = {
+    components += c
+  }
+
+  def getComponent[A <: Component: ClassTag]: Option[A] = {
     components
       .find {
         case component: A => true

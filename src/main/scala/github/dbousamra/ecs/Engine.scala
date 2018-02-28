@@ -2,7 +2,7 @@ package github.dbousamra.ecs
 
 import scala.collection.mutable.{ListBuffer => MList}
 
-class Engine {
+case class Engine() {
   private var entities: MList[Entity] = MList.empty[Entity]
 
   private var systems: MList[System] = MList.empty[System]
@@ -17,9 +17,9 @@ class Engine {
     s.engine = Some(this)
   }
 
-  def process(): Unit = {
+  def process(delta: Float): Unit = {
     systems.foreach { system =>
-      system.process(entities.toList, 1)
+      system.process(entities.toList, delta)
     }
   }
 

@@ -1,4 +1,4 @@
-package github.dbousamra.components
+package github.dbousamra.ship.components
 
 import github.dbousamra.ecs.Component
 

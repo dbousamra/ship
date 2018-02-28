@@ -1,7 +1,7 @@
-package github.dbousamra
+package github.dbousamra.ship
 
 import com.badlogic.gdx._
-import github.dbousamra.screens.PlayScreen
+import github.dbousamra.ship.screens.PlayScreen
 
 class Entry extends Game {
 

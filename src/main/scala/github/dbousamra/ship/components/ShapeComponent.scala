@@ -1,4 +1,4 @@
-package github.dbousamra.components
+package github.dbousamra.ship.components
 
 import com.badlogic.gdx.physics.box2d.Shape
 import github.dbousamra.ecs.Component
