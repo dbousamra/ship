@@ -14,21 +14,21 @@ case class PlayerSystem(universe: GameUniverse) extends System {
         control <- e.getComponent[PlayerControlComponent]
         physics <- e.getComponent[PhysicsComponent]
         _ <- e.getComponent[PlayerComponent]
-      } yield (e, control, physics)
+      } yield (control, physics)
     }
     entities.foreach {
-      case (_, control, physics) => {
+      case (control, physics) => {
         val direction = physics.body.getWorldVector(new Vector2(-1, 0))
         physics.body.setLinearVelocity(direction.scl(10))
 
-        if (control.left) {
+        if (control.turningLeft) {
           physics.body.setAngularVelocity(4f)
-        } else if (control.right) {
+        } else if (control.turningRight) {
           physics.body.setAngularVelocity(-4f)
         } else {
           physics.body.setAngularVelocity(0f)
         }
-        if (control.space) {
+        if (control.shooting) {
           engine.foreach(_.addEntity(EntityFactory.createShip(universe)))
         }
       }

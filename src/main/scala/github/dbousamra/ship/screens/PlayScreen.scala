@@ -18,7 +18,7 @@ class PlayScreen(game: Entry) extends Screen {
 
   val universe = GameUniverse(engine, physicsWorld, keyboardController)
 
-  val renderingSystem = RenderingSystem()
+  val renderingSystem = ShapeRenderingSystem()
   engine.addSystem(PhysicsSystem(universe))
   engine.addSystem(renderingSystem)
   engine.addSystem(PhysicsDebugRenderer(universe, renderingSystem.camera))

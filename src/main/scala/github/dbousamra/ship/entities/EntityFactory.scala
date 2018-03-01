@@ -30,16 +30,14 @@ object EntityFactory {
     body.createFixture(fixtureDef)
     body.setUserData(circle)
 
-    val entity = Entity.create()
-
-    entity.addComponent(PlayerComponent())
-    entity.addComponent(PlayerControlComponent())
-    entity.addComponent(TransformComponent(new Vector2(body.getPosition.x, body.getPosition.y), 0f))
-    entity.addComponent(PhysicsComponent(body))
-    entity.addComponent(ShapeComponent(circle))
-    entity.addComponent(RemainInBoundsComponent())
-
-    entity
+    Entity.create(
+      PlayerComponent(),
+      PlayerControlComponent(),
+      TransformComponent(new Vector2(body.getPosition.x, body.getPosition.y), 0f),
+      PhysicsComponent(body),
+      ShapeComponent(circle),
+      RemainInBoundsComponent()
+    )
   }
 
   def createProjectile(world: World): Entity = {

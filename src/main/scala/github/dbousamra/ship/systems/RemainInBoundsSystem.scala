@@ -12,20 +12,17 @@ case class RemainInBoundsSystem(bounds: Vector2) extends System {
       for {
         physics <- e.getComponent[PhysicsComponent]
         _ <- e.getComponent[RemainInBoundsComponent]
-      } yield (e, physics)
+      } yield physics
     }
-    entities.foreach {
-      case (_, physics) => {
-
-        val bodyWidth = physics.body.getUserData.asInstanceOf[CircleShape].getRadius
-        val xPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.x, bounds.x - bodyWidth))
-        val yPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.y, bounds.y - bodyWidth))
-        physics.body.setTransform(
-          xPosition,
-          yPosition,
-          physics.body.getAngle
-        )
-      }
+    entities.foreach { physics =>
+      val bodyWidth = physics.body.getUserData.asInstanceOf[CircleShape].getRadius
+      val xPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.x, bounds.x - bodyWidth))
+      val yPosition = math.max(0 + bodyWidth, math.min(physics.body.getPosition.y, bounds.y - bodyWidth))
+      physics.body.setTransform(
+        xPosition,
+        yPosition,
+        physics.body.getAngle
+      )
     }
   }
 }

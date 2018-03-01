@@ -10,7 +10,7 @@ import github.dbousamra.ship.components._
 import github.dbousamra.ecs._
 import github.dbousamra.ship.Constants
 
-case class RenderingSystem() extends System {
+case class ShapeRenderingSystem() extends System {
 
   val camera: Camera = new OrthographicCamera()
   val viewPort = new FitViewport(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, camera)
@@ -24,7 +24,7 @@ case class RenderingSystem() extends System {
       for {
         transform <- e.getComponent[TransformComponent]
         shape <- e.getComponent[ShapeComponent]
-      } yield (e, transform, shape)
+      } yield (transform, shape)
     }
 
     Gdx.gl.glClearColor(0, 0, 0, 1)
@@ -32,7 +32,7 @@ case class RenderingSystem() extends System {
     camera.update()
 
     entities.foreach {
-      case (e, transform, shape) =>
+      case (transform, shape) =>
         shape.shape.getType match {
           case Shape.Type.Circle => {
             val circle = shape.shape.asInstanceOf[CircleShape]

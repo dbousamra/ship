@@ -10,13 +10,13 @@ case class PlayerControlSystem(universe: GameUniverse) extends System {
     val entities = es.flatMap { e =>
       for {
         control <- e.getComponent[PlayerControlComponent]
-      } yield (e, control)
+      } yield (control)
     }
-    entities.foreach {
-      case (_, control) => {
-        control.left = universe.keyboard.left
-        control.right = universe.keyboard.right
-        control.space = universe.keyboard.space
+    entities.foreach { control =>
+      {
+        control.turningLeft = universe.keyboard.left
+        control.turningRight = universe.keyboard.right
+        control.shooting = universe.keyboard.space
       }
     }
   }

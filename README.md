@@ -1,7 +1,7 @@
 # ship
 
 ## TODO
-- [x] Bullets and player speed adjusted to reasonable levels
+- [ ] Player should fire projectiles
 - [ ] Can't spam bullets
 - [ ] Bullets cleaned up when hitting edge of screen, and given an animation
 - [ ] Player should lose health when hitting edge of screen
